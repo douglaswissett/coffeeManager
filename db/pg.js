@@ -23,15 +23,11 @@ function getItems(req, res, next) {
   })
 }
 
-
 function addItem(req, res, next) {
-  db.one(`insert into orders
-  (drink_name, size, price, comments)
-  values ($1, $2, $3, $4) returning order_id;`,[
-    req.body.drink_name,
-    req.body.size,
-    req.body.price,
-    req.body.comments])
+  db.one("insert into orders\
+  (drink_name, size, price, comments)\
+  values (${drink_name}, ${size}, ${price}, ${comments})\
+  returning order_id;", req.body)
     .then(function(data) {
 
       res.order_id = data;
