@@ -5,6 +5,6 @@ create table orders(
   drink_name varchar(50),
   size varchar(1),
   price numeric,
-  ready boolean,
+  ready boolean not null default false,
   comments text
 )
