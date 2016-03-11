@@ -72,20 +72,27 @@ const App = React.createClass({
       <div>
         <div className="container">
           <div className="row">
-            <ul className="col s12">
-              <li><h4>Menu Items</h4></li>
+            <div className="six columns" style={{border: '1px purple solid'}}>
+              <ul className="col s12" style={{listStyle: 'none'}}>
+                <li><h4>Menu Items</h4></li>
 
-              {Object.keys(this.state.menu).map(this.renderMenu)}
+                {Object.keys(this.state.menu).map(this.renderMenu)}
 
-            </ul>
-            <ul className="col s12">
-              <li><h4>Order Queue</h4></li>
+              </ul>
+            </div>
+            <div className="six columns">
+              <ul className="col s12" style={{listStyle: 'none'}}>
+                <li><h4>Order Queue</h4></li>
 
-              {Object.keys(this.state.orders).map(this.renderOrder)}
+                {Object.keys(this.state.orders).map(this.renderOrder)}
 
-            </ul>
+              </ul>
+            </div>
           </div>
-          <CreateOrderForm addMenuItem={this.addMenuItem} />
+
+          <CreateMenuItemForm addMenuItem={this.addMenuItem} />
+
+
         </div>
       </div>
     )
@@ -101,7 +108,7 @@ const App = React.createClass({
 
 
 
-const CreateOrderForm = React.createClass({
+const CreateMenuItemForm = React.createClass({
   handleSubmit : function(event) {
     event.preventDefault();
 
@@ -119,7 +126,7 @@ const CreateOrderForm = React.createClass({
 
   render : function() {
     return (
-      <div>
+      <div className="menuForm">
         <div className="row">
           <div className="col s4">
 
@@ -170,10 +177,11 @@ const ItemForm = React.createClass({
     this.refs.orderForm.reset();
   },
 
+
   render : function() {
     return (
       <li>
-        <div>
+        <div className="itemForm">
           <div className="row">
             <div className="col s12">
               <form ref="orderForm" onSubmit={this.handleSubmit} >
@@ -185,20 +193,19 @@ const ItemForm = React.createClass({
               
                 <div className="input-field">
                   <select ref="size">
-                    <option value="" disabled selected>Choose your option</option>
+                    <option value="" disabled selected>Size</option>
                     <option value="1">S</option>
                     <option value="2">M</option>
                     <option value="3">L</option>
                   </select>
-                  <label>Size</label>
                 </div>
               
                 <div className="input-field">
-                  <input type="text" ref="price" value={this.props.details.base_price} disabled />
+                  <input type="hidden" ref="price" value={this.props.details.base_price} disabled />
                 </div>
                 <div className="input-field">
-                  <input type="text" ref="comments" id="comments"/>
                   <label for="comments">Comments</label>
+                  <input type="text" ref="comments" id="comments"/>
                 </div>
                 <button type="submit" className="waves-effect waves-light btn">Add To Order</button>
               </form>

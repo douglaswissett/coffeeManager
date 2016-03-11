@@ -1,0 +1,23 @@
+
+.nav-bar {
+  width: 100%;
+  height: 100px;
+  background-color: teal;
+}
+
+.menuForm {
+  border: 1px solid black;
+}
+
+.itemForm {
+  border: 1px solid red;
+  text-align: center;
+}
+
+.itemForm input {
+  width: 70%;
+}
+
+.container {
+  border: 4px orange dotted;
+}
