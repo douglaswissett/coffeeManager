@@ -63,4 +63,7 @@ function deleteItem(req, res, next){
   })
 }
 
+module.exports.getItems = getItems;
 module.exports.addItem = addItem;
+module.exports.itemReady = itemReady;
+module.exports.deleteItem = deleteItem;
