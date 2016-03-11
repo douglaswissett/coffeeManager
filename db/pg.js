@@ -12,16 +12,10 @@ var cn = {
 var db = pgp(cn);
 
 function addItem() {
-  db.one("insert into orders\
-  (drink_name, size, price, ready, comments)\
-  values ($1, $2, $3, $4, $5) returning order_id;"[
-    req.body.drink_name,
-    req.body.size,
-    req.body.price,
-    req.body.ready,
-    req.body.comments])
-    .then(function(data) {
-      res.order_id = data;
+  db.one("insert into orders(drink_name, size, price, ready, comments)\
+  values (${drink_name}, ${size}, ${proce}, ${ready}, ${comments}) returning order_id;", req.body)
+    .then(function(order) {
+      res.order_id = order.id; // of whatever [id] field you use there;
       console.log(data);
     })
     .catch(function(err) {
