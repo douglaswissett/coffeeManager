@@ -5,8 +5,8 @@ var cn = {
     host: 'localhost', // server name or IP address;
     port: 5432,
     database: 'coffee_shop',
-    user: 'dan',
-    password: 'wak24pie'
+    user: 'douglaswalker',
+    password: process.env.DB_PASS
 };
 
 var db = pgp(cn);
