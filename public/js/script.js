@@ -61,22 +61,27 @@ const App = React.createClass({
       <ItemForm key={key} index={key} details={this.state.menu[key]} addOrder={this.addOrder} />
     )
   },
+  renderOrder : function(key) {
+    return (
+      <Order key={key} index={key} details={this.state.orders[key]} />
+    )
+  },
 
   render : function() {
     return (
       <div>
         <div className="container">
           <div className="row">
-            <ul className="col s4">
+            <ul className="col s12">
               <li><h4>Menu Items</h4></li>
 
               {Object.keys(this.state.menu).map(this.renderMenu)}
 
             </ul>
-            <ul className="col s8">
+            <ul className="col s12">
               <li><h4>Order Queue</h4></li>
 
-
+              {Object.keys(this.state.orders).map(this.renderOrder)}
 
             </ul>
           </div>
@@ -169,23 +174,49 @@ const ItemForm = React.createClass({
     return (
       <li>
         <div>
-          <form ref="orderForm" onSubmit={this.handleSubmit}>
-            <input type="text" ref="drink_name" value={this.props.details.item_name} disabled />
-            <select ref="size">
-              <option value="1">S</option>
-              <option value="2">M</option>
-              <option value="3">L</option>
-            </select>
-            <div className="input-field">
-              <input type="text" ref="price" value={this.props.details.base_price} disabled />
+          <div className="row">
+            <div className="col s12">
+              <form ref="orderForm" onSubmit={this.handleSubmit} >
+
+                <div className="input-field">
+                  <input type="text" ref="drink_name" value={this.props.details.item_name} disabled />
+                </div>
+
+              
+                <div className="input-field">
+                  <select ref="size">
+                    <option value="" disabled selected>Choose your option</option>
+                    <option value="1">S</option>
+                    <option value="2">M</option>
+                    <option value="3">L</option>
+                  </select>
+                  <label>Size</label>
+                </div>
+              
+                <div className="input-field">
+                  <input type="text" ref="price" value={this.props.details.base_price} disabled />
+                </div>
+                <div className="input-field">
+                  <input type="text" ref="comments" id="comments"/>
+                  <label for="comments">Comments</label>
+                </div>
+                <button type="submit" className="waves-effect waves-light btn">Add To Order</button>
+              </form>
             </div>
-            <div className="input-field">
-              <input type="text" ref="comments" id="comments"/>
-              <label for="comments">Comments</label>
-            </div>
-            <button type="submit" className="waves-effect waves-light btn">Add To Order</button>
-          </form>
+          </div>
         </div>
+      </li>
+    )
+  }
+});
+
+
+const Order = React.createClass({
+
+  render : function() {
+    return (
+      <li>
+        <div>Order No: {this.props.index} <br/> {this.props.details.drink_name} {this.props.details.price} {this.props.details.comments}</div>
       </li>
     )
   }
