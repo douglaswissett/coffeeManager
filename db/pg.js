@@ -1,3 +1,4 @@
+'use strict';
 var pgp = require('pg-promise')({
     // Initialization Options
 });
@@ -11,18 +12,19 @@ var cn = {
 
 var db = pgp(cn);
 
-function addItem() {
-  db.one("insert into orders\
-  (drink_name, size, price, ready, comments)\
-  values ($1, $2, $3, $4, $5) returning order_id;"[
+function addItem(req, res, next) {
+  db.one(`insert into orders
+  (drink_name, size, price, ready, comments)
+  values ($1, $2, $3, $4, $5) returning order_id;`,[
     req.body.drink_name,
     req.body.size,
     req.body.price,
     req.body.ready,
     req.body.comments])
     .then(function(data) {
+
       res.order_id = data;
-      console.log(data);
+      next();
     })
     .catch(function(err) {
       console.error(err);

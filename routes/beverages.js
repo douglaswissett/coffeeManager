@@ -1,7 +1,7 @@
 'use strict';
 const express     = require('express');
 const beverages   = express.Router();
-// db = require to go here
+const db          = require('../db/pg');
 
 // beverages route
 beverages.route('/')
@@ -9,7 +9,7 @@ beverages.route('/')
     // get beverages
     res.send(req.method);
   })
-  .post( (req, res) => {
+  .post( db.addItem, (req, res) => {
     // add beverage
     res.send(req.method);
   });
