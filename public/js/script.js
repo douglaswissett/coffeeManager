@@ -216,7 +216,7 @@ const Order = React.createClass({
   render : function() {
     return (
       <li>
-        <div>Order No: {this.props.index} <br/> {this.props.details.drink_name} {this.props.details.price} {this.props.details.comments}</div>
+        <div>Order No: {this.props.index} <br/> {this.props.details.drink_name} <br/>${this.props.details.price} <br/>Comments: {this.props.details.comments}</div>
       </li>
     )
   }
