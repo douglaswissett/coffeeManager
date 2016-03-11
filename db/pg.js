@@ -12,6 +12,18 @@ var cn = {
 
 var db = pgp(cn);
 
+function getItems(req, res, next) {
+  db.any(`select * from orders`)
+  .then(function(data) {
+    res.items = data;
+    next();
+  })
+  .catch(function(error){
+    console.error(error);
+  })
+}
+
+
 function addItem(req, res, next) {
   db.one(`insert into orders
   (drink_name, size, price, ready, comments)
@@ -28,6 +40,27 @@ function addItem(req, res, next) {
     .catch(function(err) {
       console.error(err);
     })
+}
+
+function itemReady(req, res, next) {
+  db.none(`update orders set ready = true where order_id = ($1)`, [req.body.id])
+  .then(function() {
+    next();
+  })
+  .catch(function(err) {
+    console.error(err);
+  })
+}
+
+function deleteItem(req, res, next){
+  db.none(`delete from orders where order_id = ($1)`,
+  [req.body.id])
+  .then(function() {
+    next();
+  })
+  .catch(function(error){
+    console.error(error);
+  })
 }
 
 module.exports.addItem = addItem;
