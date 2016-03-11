@@ -5,21 +5,21 @@ const db          = require('../db/pg');
 
 // beverages route
 beverages.route('/')
-  .get( (req, res) => {
+  .get( db.getItems,(req, res) => {
     // get beverages
-    res.send(req.method);
+    res.send(res.items);
   })
   .post( db.addItem, (req, res) => {
     // add beverage
-    res.send(req.method);
+    res.send(res.order_id);
   });
 
 beverages.route('/:orderid')
-  .put( (req, res) => {
+  .put( db.itemReady, (req, res) => {
     // update ready status
     res.send(req.method);
   })
-  .delete( (req, res) => {
+  .delete( db.deleteItem, (req, res) => {
     // delete beverage
     res.send(req.method);
   });
