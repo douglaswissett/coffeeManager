@@ -17,11 +17,27 @@ const App = React.createClass({
   render : function() {
     return (
       <div>
-        <h1>Test Splasher</h1>
+        <CreateOrderForm />
       </div>
     )
   }
 });
+
+
+
+const CreateOrderForm = React.createClass({
+  render : function() {
+    return (
+      <div className="container">
+        
+          <span>Menu</span>
+
+      </div>
+    )
+  }
+});
+
+
 
 
 
