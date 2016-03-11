@@ -18,16 +18,43 @@ const App = React.createClass({
       menu: {}
     }
   },
+  componentDidMount:function() {
+    // this is where you'll get the data from the 'db'
+    $.get('/beverages').done((data) => {
+      // for each to push each object into an object instead of array
+      data.forEach((el) => {
+        this.state.orders[el.order_id] = el;
+      });
+      this.setState({orders: this.state.orders});
+    });
 
-  setMenuItem : function(drink) {
-    var timestamp = new Date().getTime();
-    this.state.menu[timestamp] = drink;
-    this.setState({ menu: this.state.menu});
+    $.get('/menu').done((data) => {
+
+      data.forEach((el) => {
+        this.state.menu[el.item_id] = el;
+      });
+      this.setState({ menu: this.state.menu });
+    })
+  },
+
+  addMenuItem : function(item) {
+    //let timestamp = new Date().getTime();
+    let that = this;
+
+    $.post('/menu', item)
+      .done( (data) => {
+        this.state.menu[data.item_id] = item;
+        this.setState({ menu: this.state.menu});
+      });
   },
   addOrder : function(order) {
-    var timestamp = new Date().getTime();
-    this.state.orders[timestamp] = order;
-    this.setState({ orders: this.state.orders });
+    let that = this;
+
+    $.post('/beverages', order)
+      .done( (data) => {
+        that.state.orders[data.order_id] = order;
+        that.setState({ orders: that.state.orders });
+      });
   },
   renderMenu : function(key) {
     return (
@@ -53,7 +80,7 @@ const App = React.createClass({
 
             </ul>
           </div>
-          <CreateOrderForm setMenuItem={this.setMenuItem} />
+          <CreateOrderForm addMenuItem={this.addMenuItem} />
         </div>
       </div>
     )
@@ -74,14 +101,14 @@ const CreateOrderForm = React.createClass({
     event.preventDefault();
 
     let drink_name = this.refs.drink_name.value; 
-    let price = this.refs.price.value;
+    let price = +(this.refs.price.value);
 
-    let drink = {
+    let item = {
       item_name: drink_name,
       base_price: price
     }
 
-    this.props.setMenuItem(drink);
+    this.props.addMenuItem(item);
     this.refs.menuForm.reset();
   },
 
@@ -99,7 +126,7 @@ const CreateOrderForm = React.createClass({
                 <label for="drink_name">Drink Name</label>
               </div>
               <div className="input-field">
-                <input type="number" id="price" ref="price" />
+                <input type="text" id="price" ref="price" />
                 <label for="price">Base Price</label>
               </div>
               <div className="input-field">
@@ -122,7 +149,7 @@ const ItemForm = React.createClass({
 
     let drink_name = this.refs.drink_name.value;
     let size = this.refs.size.value;
-    let price = this.refs.price.value;
+    let price = +(this.refs.price.value);
     let comments = this.refs.comments.value;
 
     let order = {
