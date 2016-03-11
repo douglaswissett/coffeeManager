@@ -6,7 +6,7 @@ var cn = {
     host: 'localhost', // server name or IP address;
     port: 5432,
     database: 'coffee_shop',
-    user: 'douglaswalker',
+    user: process.env.DB_USER,
     password: process.env.DB_PASS
 };
 
@@ -23,15 +23,11 @@ function getItems(req, res, next) {
   })
 }
 
-
 function addItem(req, res, next) {
-  db.one(`insert into orders
-  (drink_name, size, price, ready, comments)
-  values ($1, $2, $3, $4) returning order_id;`,[
-    req.body.drink_name,
-    req.body.size,
-    req.body.price,
-    req.body.comments])
+  db.one("insert into orders\
+  (drink_name, size, price, comments)\
+  values (${drink_name}, ${size}, ${price}, ${comments})\
+  returning order_id;", req.body)
     .then(function(data) {
 
       res.order_id = data;
@@ -43,7 +39,7 @@ function addItem(req, res, next) {
 }
 
 function itemReady(req, res, next) {
-  db.none(`update orders set ready = true where order_id = ($1)`, [req.body.id])
+  db.none(`update orders set ready = true where order_id = ($1)`, [req.params.orderid])
   .then(function() {
     next();
   })
@@ -54,7 +50,7 @@ function itemReady(req, res, next) {
 
 function deleteItem(req, res, next){
   db.none(`delete from orders where order_id = ($1)`,
-  [req.body.id])
+  [req.params.orderid])
   .then(function() {
     next();
   })

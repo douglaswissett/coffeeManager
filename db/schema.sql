@@ -1,4 +1,5 @@
 drop table if exists orders;
+drop table if exists menu_items;
 
 create table orders(
   order_id serial primary key unique,
@@ -7,4 +8,10 @@ create table orders(
   price numeric,
   ready boolean not null default false,
   comments text
-)
+);
+
+create table menu_items(
+  item_id serial primary key unique,
+  item_name varchar(50),
+  base_price numeric
+);

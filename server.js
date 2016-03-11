@@ -8,6 +8,7 @@ const app        = express();
 const _port      = process.env.PORT || 3000;
 
 const beveragesRoute  = require('./routes/beverages');
+const menuRoute       = require('./routes/menu');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -18,6 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // set up some logging
 app.use(logger('dev'));
 app.use('/beverages', beveragesRoute);
+app.use('/menu', menuRoute);
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views/index.html'));
